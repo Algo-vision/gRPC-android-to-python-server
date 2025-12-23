@@ -19,7 +19,7 @@ class SideCameraImageService(side_camera_image_service_pb2_grpc.SideCameraImageS
                 # Get the image data from bytes
                 nparr = np.frombuffer(request.image_data, np.uint8)
                 img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-                img = cv2.transpose(img)
+                # img = cv2.transpose(img)
                 if img is not None:
                     # Log info
                     timestamp = request.timestamp if request.HasField('timestamp') else int(time.time() * 1000)

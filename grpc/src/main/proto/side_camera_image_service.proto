@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package ai.caper.cv.cart.domain;
+
+import "google/protobuf/empty.proto";
+
+// Experimental service for side camera image submission - intended for prototyping only
+// TODO: This service is temporary and should not be used in production
+service SideCameraImageService {
+  // Submit a single side camera image for processing
+  rpc SubmitSideCameraImage(stream SubmitCameraFrameRequest) returns (google.protobuf.Empty);
+
+  // Listen for prediction events to come in
+  rpc ObservePredictions(google.protobuf.Empty) returns (stream ObservePredictionsResponse);
+}
+
+message SubmitCameraFrameRequest {
+  // Raw image data - the core payload we want to send
+  bytes image_data = 1;
+
+  // Optional: basic metadata if needed for processing
+  optional string camera_id = 2;
+  optional int64 timestamp = 3;
+}
+
+message ObservePredictionsResponse {
+  oneof payload {
+    string json_raw = 1;
+    bytes file_raw = 2;
+  }
+}
